@@ -21,19 +21,19 @@ class HardwareBase:
 		return ((0.01*percent) * (HardwareBase.MAXIMUM_DUTY_CYCLE - HardwareBase.MINIMUM_DUTY_CYCLE)) + HardwareBase.MINIMUM_DUTY_CYCLE
 	def getMotorSpeed(motor_num):
 		return self.curr_motor_speed[motor_num]
-	def setMotorSpeed(motor_num, float percent):
+	def setMotorSpeed(motor_num, percent):
 		if percent >= 100:
 			percent = 99
-		else if percent < 0:
+		elif percent < 0:
 			percent = 0
 		self.curr_motor_speed[motor_num] = percent
 		PWM.set_duty_cycle(HardwareBase.MOTORS[motor_num], self.percent_to_duty(percent))
-	def getSonarDistance(sonar_num)
+	def getSonarDistance(sonar_num):
 		return 0
-	def getPitch()
+	def getPitch():
 		return 0
-	def getRoll()
+	def getRoll():
 		return 0
-	def getYaw()
+	def getYaw():
 		return 0
 
