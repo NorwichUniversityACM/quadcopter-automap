@@ -25,7 +25,7 @@ def comm ():
                 data = conn.recv(BUFFER_SIZE)
                 if not data: break
                 print "received data:", data
-                if data < 30 and data > -2:
+                if int(data) < 30 and int(data) > -2:
                         gentlepercentage(data)
                         if data == -1:
                                 killed = True
