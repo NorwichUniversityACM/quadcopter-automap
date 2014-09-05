@@ -1,6 +1,7 @@
 import socket
 import Queue
 import threading
+import time
 
 TCP_IP = '10.0.0.1'
 TCP_PORT = 666
@@ -17,32 +18,32 @@ active = True
 send_per = 0
 
 def connect(ip, port):
-	global s
+        global s
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((ip, port))
 def close():
-	global s
+        global s
         s.close()
 def send(message):
-	global s
+        global s
         s.send(message)
 def receive():
-	global s
-	global data_queue
+        global s
+        global data_queue
         data_queue.put(s.recv(BUFFER_SIZE))
 def receive_loop():
-	global receiving
+        global receiving
         while receiving:
                 receive()
                 time.sleep(0.5)
 def send_loop():
-	global sending
+        global sending
         while sending:
                 send(str(send_per))
-                time.sleep(.01)
+                time.sleep(1)
 def print_received():
-	global active
-	global data_queue
+        global active
+        global data_queue
         while active:
                 while not data_queue.empty():
                         print data_queue.get()
