@@ -17,29 +17,39 @@ active = True
 send_per = 0
 
 def connect(ip, port):
+	global s
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((ip, port))
 def close():
+	global s
         s.close()
 def send(message):
+	global s
         s.send(message)
 def receive():
+	global s
+	global data_queue
         data_queue.put(s.recv(BUFFER_SIZE))
 def receive_loop():
+	global receiving
         while receiving:
                 receive()
                 time.sleep(0.5)
 def send_loop():
+	global sending
         while sending:
                 send(str(send_per))
                 time.sleep(.01)
 def print_received():
+	global active
+	global data_queue
         while active:
                 while not data_queue.empty():
                         print data_queue.get()
         time.sleep(.01)
 if __name__ == "__main__":
         
+
         connect(TCP_IP, TCP_PORT)
         sending = True
         receiving = True
