@@ -11,16 +11,14 @@ class HardwareBase:
                 self.curr_motor_speed = {0:0,1:0,2:0,3:0}
         def start(self):
                 for motor in HardwareBase.MOTORS:
-                        PWM.start(HardwareBase.MOTORS[motor],HardwareBase.MINIMU
-M_DUTY_CYCLE, HardwareBase.FREQUENCY)
+                        PWM.start(HardwareBase.MOTORS[motor],HardwareBase.MINIMUM_DUTY_CYCLE, HardwareBase.FREQUENCY)
 
         def stop(self):
                 for motor in HardwareBase.MOTORS:
                         PWM.stop(HardwareBase.MOTORS[motor])
 
         def percent_to_duty(self,percent):
-                return ((0.01*percent) * (HardwareBase.MAXIMUM_DUTY_CYCLE - Hard
-wareBase.MINIMUM_DUTY_CYCLE)) + HardwareBase.MINIMUM_DUTY_CYCLE
+                return ((0.01*percent) * (HardwareBase.MAXIMUM_DUTY_CYCLE - HardwareBase.MINIMUM_DUTY_CYCLE)) + HardwareBase.MINIMUM_DUTY_CYCLE
         def getMotorSpeed(self,motor_num):
                 return self.curr_motor_speed[motor_num]
         def setMotorSpeed(self,motor_num, percent):
@@ -29,8 +27,7 @@ wareBase.MINIMUM_DUTY_CYCLE)) + HardwareBase.MINIMUM_DUTY_CYCLE
                 elif percent < 0:
                         percent = 0
                 self.curr_motor_speed[motor_num] = percent
-                PWM.set_duty_cycle(HardwareBase.MOTORS[motor_num], self.percent_
-to_duty(percent))
+                PWM.set_duty_cycle(HardwareBase.MOTORS[motor_num], self.percent_to_duty(percent))
         def getSonarDistance(self,sonar_num):
                 return 0
         def getPitch(self):
