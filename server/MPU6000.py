@@ -1,19 +1,19 @@
-import Adafruit_BBIO.SPI as SPI
+from Adafruit_I2C import Adafruit_I2C
 class MPU6000:
-	spi = None
-	RREG = 0x80
-	WREG = 0x00
-	REGMASK = 0x7F
-
 	R_SELF_TEST_X = 0x0D
 	R_SELF_TEST_Y = 0x0E
 	R_SELF_TEST_Z = 0x0F
 	R_SELF_TEST_A = 0x10
-
+	
+	R_SMPRT_DIV = 0x19
 	R_CONFIG = 0x1A
 	R_GYRO_CONFIG = 0x1B
 	R_ACCEL_CONFIG = 0x1C
 	R_FIFO_EN = 0x23
+	
+	R_INT_PIN_CFG = 0x37	
+	R_INT_ENABLE = 0x38
+	R_INT_STATUS = 0x3A
 	
 	R_ACCEL_XOUT_H = 0x3B
 	R_ACCEL_XOUT_L = 0x3C
@@ -39,29 +39,25 @@ class MPU6000:
 	R_PWR_MGMT_1 = 0x6B
 	R_FIFO_COUNT_H = 0x72
 	R_FIFO_COUNT_L = 0x73
-	R_FIFO = 0x74
+	R_FIFO_R_W = 0x74
 	R_WHOAMI = 0x75
 	
 	def __init__(self):
+		None		
+	@staticmethod
 	def smashhl(h , l):
 		return (h << 8) + l
-		
 	def open(self):
-		spi = SPI(0, 0)
-		spi.msh=1000000	
-		spi.bpw = 8
-		spi.threewire = False
-		spi.lsbfirst = False
-		spi.mode = 1
-		spi.cshigh = False
-		spi.open(0, 0)
+		self.i2c = Adafruit_I2C(0x68)	
 	def close(self):
-		spi.close()
+		None
 	def writeReg(self, reg, data):
-		spi.xfer2([MPU6000.WREG+(reg & REGMASK),data]);
+		self.i2c.write8(reg,data)
 	def readReg(self, reg):
-		d = spi.xfer2([MPU6000.RREG+(reg & REGMASK)]);
-		return d 
+		return self.i2c.readS8(reg)
+	def readRegU(self, reg):
+		return self.i2c.readU8(reg)
 	def initialize(self):
+		None	
 	
 
